@@ -31,7 +31,6 @@ jobs:
 
     - name: Build Jekyll site with PR-specific baseurl
       run: |
-        export BASEURL="/preview/pr-${{ github.event.pull_request.number }}"
         bundle exec jekyll build --baseurl "$BASEURL" -d site
 
     - name: Deploy to PR preview folder
