@@ -1,0 +1,41 @@
+name: Preview Deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main  # Target branch for the PR
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout PR branch
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2
+
+    - name: Install dependencies
+      run: |
+        bundle config set path vendor/bundle
+        bundle install
+
+    - name: Build Jekyll site with PR-specific baseurl
+      run: |
+        export BASEURL="/preview/pr-${{ github.event.pull_request.number }}"
+        bundle exec jekyll build --baseurl "$BASEURL" -d site
+
+    - name: Deploy to PR preview folder
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        personal_token: ${{ secrets.GH_PAT }} # Use if GITHUB_TOKEN has no push access
+        publish_branch: gh-pages
+        publish_dir: ./site
+        destination_dir: docs/preview/pr-${{ github.event.pull_request.number }}
+        keep_files: true  # Keep existing previews
