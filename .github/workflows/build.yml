@@ -1,47 +1,35 @@
-name: build
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - master
-  workflow_dispatch: {}
-  repository_dispatch: {}
+    branches: [main]
 
 jobs:
-  build:
-    if: github.repository == 'mmistakes/minimal-mistakes'
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+    - name: Checkout source
+      uses: actions/checkout@v4
 
-    - uses: ruby/setup-ruby@v1
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2'
-    - name: Setup cache for Bundler
-      id: cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          docs/Gemfile.lock
-          docs/vendor/bundle
-        key: ${{ runner.os }}-bundler-${{ hashFiles('docs/Gemfile') }}
-        restore-keys: |
-          ${{ runner.os }}-bundler-
+        ruby-version: 3.2
 
-    - name: Install - Bundler
-      env:
-        MAKE: make -j2
-      working-directory: docs/
+    - name: Install dependencies
       run: |
-        bundle config set path vendor/bundle
-        bundle install --jobs=4 --retry=3
-        bundle clean
+        bundle config set path 'vendor/bundle'
+        bundle install
 
-    - name: Update Algolia index
-      working-directory: docs/
-      run: bundle exec jekyll algolia push
-      env:
-        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-      continue-on-error: true
+    - name: Build Jekyll site
+      run: bundle exec jekyll build -d site
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
+        publish_branch: gh-pages
+        destination_dir: docs
+        keep_files: false  # or true if you want to preserve previews
