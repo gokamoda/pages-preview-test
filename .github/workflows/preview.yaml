@@ -20,6 +20,9 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
+    
+    - name: Set PR base URL
+      run: echo "BASEURL=/${{ github.event.repository.name }}/preview/pr-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
