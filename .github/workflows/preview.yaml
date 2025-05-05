@@ -21,9 +21,6 @@ jobs:
       with:
         ruby-version: 3.2
     
-    - name: Set PR base URL
-      run: echo "BASEURL=/${{ github.event.repository.name }}/preview/pr-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
-
     - name: Install dependencies
       run: |
         bundle config set path vendor/bundle
@@ -31,7 +28,7 @@ jobs:
 
     - name: Build Jekyll site with PR-specific baseurl
       run: |
-        bundle exec jekyll build --baseurl "$BASEURL" -d site
+        bundle exec jekyll build --baseurl "/${{ github.event.repository.name }}/preview/pr-${{ github.event.pull_request.number }}" -d site
 
     - name: Deploy to PR preview folder
       uses: peaceiris/actions-gh-pages@v3
