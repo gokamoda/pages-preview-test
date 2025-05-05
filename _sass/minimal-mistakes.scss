@@ -35,3 +35,45 @@
 @import "minimal-mistakes/archive";
 @import "minimal-mistakes/sidebar";
 @import "minimal-mistakes/print";
+
+
+// Custom styles for the site
+
+h3 {
+    margin: 1em 0 0.5em !important;
+}
+
+.post-date {
+    background-color: aqua;
+    display: inline-block;
+}
+
+.row {
+    display: flex;
+}
+
+.archive__item-tag {
+    padding: 0.5em;
+    display: inline-block;
+    display: inline-block;margin-bottom: 0.25em;
+    font-size: .6em;
+    border-radius: 4px;
+    margin-right: 5px;
+
+    &.date{
+        background-color: #373737;
+        color: #f3f3f3;
+    }
+    &.tag-News{
+        background-color: darkolivegreen;
+        color: #f3f3f3;
+    }
+    &.tag-Talk{
+        background-color: maroon;
+        color: #f3f3f3;
+    }
+    &.tag-Blog{
+        background-color: rgb(52, 88, 193);
+        color: #f3f3f3;
+    }
+}

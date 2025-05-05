@@ -1,0 +1,10 @@
+---
+first_name_en: Go
+last_name_en: Kamoda
+middle_name_en: ""
+first_name_ja: 豪
+last_name_ja: 鴨田
+email: go.kamoda@ninjal.ac.jp
+website: https://gokamoda.github.io
+position: D1
+---
