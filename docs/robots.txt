@@ -1,1 +1,1 @@
-Sitemap: /sitemap.xml
+Sitemap: /pages-preview-test/sitemap.xml
