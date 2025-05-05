@@ -20,7 +20,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
-
+    
     - name: Install dependencies
       run: |
         bundle config set path vendor/bundle
@@ -28,14 +28,13 @@ jobs:
 
     - name: Build Jekyll site with PR-specific baseurl
       run: |
-        export BASEURL="/preview/pr-${{ github.event.pull_request.number }}"
         bundle exec jekyll build --baseurl "/${{ github.event.repository.name }}/preview/pr-${{ github.event.pull_request.number }}" -d site
 
     - name: Deploy to PR preview folder
       uses: peaceiris/actions-gh-pages@v3
       with:
-        personal_token: ${{ secrets.GH_PAT }} # Use if GITHUB_TOKEN has no push access
+        github_token: ${{ secrets.GH_PAT }}   # ✅ Use this instead of personal_token
         publish_branch: gh-pages
         publish_dir: ./site
         destination_dir: docs/preview/pr-${{ github.event.pull_request.number }}
-        keep_files: true  # Keep existing previews
+        keep_files: true
