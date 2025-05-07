@@ -54,5 +54,5 @@ jobs:
             owner,
             repo,
             issue_number: prNumber,
-            body: `✅ Preview ready: [View Preview](${previewUrl})`
+            body: `✅ Preview ready: <a href="${previewUrl}" target="_blank">View Preview</a>`
           });
