@@ -1,5 +1,5 @@
 ---
-first_name_en: Go
+first_name_en: Goo
 last_name_en: Kamoda
 middle_name_en: ""
 first_name_ja: 豪
